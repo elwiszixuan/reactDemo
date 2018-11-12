@@ -5,6 +5,7 @@
 
 function Card(props) {
     return (
+
         <div className="col-xs-4 align-self-start ">
             <div className="card bg-secondary text-light">
                 <div className="card-body">
@@ -14,87 +15,74 @@ function Card(props) {
                 </div>
             </div>
         </div>
+
     );
 }
 
-
-
-class CardsRow extends React.Component{
-    
-    testArray(){
-        let kpiArray = [];
-        for(let i =0;i<16;i++){
-            let kpi ={
-                title:i+"",
-                result:i
-            }
-            kpiArray[i]=kpi
-        }
-       
-        return (kpiArray);
-    }
-
-
-    render(){
-        
-        let kpiArray = this.testArray();
-        return(
-            
-        );
-    }
-
-}
-
-
-class CardsTab extends React.Component{
-    constructor(props){
+class CardsTab extends React.Component {
+    constructor(props) {
         super(props);
-        this.state={
-            isExpand:false,
+        this.state = {
+            isExpand: false,
         }
     }
 
-    renderCube(title,result){
-        return(
-            <Card
-                title = {title}
-                result = {result}
-            />
-        );
-    }
 
-
-
-    render(){
-        return(
+    render() {
+        let kpiArray = convertArray(testArray).slice();
+        return (
             <div>
-                <div className="row justify-content-between" style={{background:'aquamarine'}}>
-                    {this.renderCube('考核项目',11)}
-                    {this.renderCube('考核项目',22)}
-                    {this.renderCube('考核项目',33)}
-                    {this.renderCube('考核项目',44)}
-                    {this.renderCube('考核项目',55)}
-                </div>
-                <div className="row justify-content-between" style={{background:'aquamarine'}}>
-                    {this.renderCube('考核项目',66)}
-                    {this.renderCube('考核项目',77)}
-                    {this.renderCube('考核项目',88)}
-                    {this.renderCube('考核项目',99)}
-                    {this.renderCube('考核项目',1010)}
-                </div>
-                <div className="row justify-content-between" style={{background:'aquamarine'}}>
-                    {this.renderCube('考核项目',1111)}
-                    {this.renderCube('考核项目',1212)}
-                    {this.renderCube('考核项目',1313)}
-                    {this.renderCube('考核项目',1414)}
-                    {this.renderCube('考核项目',1515)}
-                </div>
+                {
+                    kpiArray.map(row => {
+                        return <div className="row justify-content-between" id="indexRow" style={{ background: 'aquamarine' }}>
+                            {row.map(item => {
+                                return <Card title = {item.title} result={item.result}></Card>
+                            }) }
+                        </div>
+                    })
+                }   
             </div>
         )
     }
 }
 
+
+
+
+//=================================================================
 ReactDOM.render(
     <CardsTab />,
     document.getElementById('testR')
 );
+
+
+function testArray() {
+    let kpiArray = [];
+    for (let i = 0; i < 16; i++) {
+        let kpi = {
+            title: i + "",
+            result: i
+        }
+        kpiArray[i] = kpi
+    }
+
+    return kpiArray;
+}
+
+function convertArray(arrayFromBack){
+    
+    var list = [];
+    let receivedArray = arrayFromBack().slice();
+
+    var arrayLength = receivedArray.length;
+    const numberInARow = 5;
+    var numberInLastRow = arrayLength%numberInARow;
+    var rows = (arrayLength-numberInLastRow) / numberInARow;
+
+    for(var i=0;i<arrayLength;i+=numberInARow){
+        list.push(receivedArray.slice(i,i+numberInARow))
+    }
+
+
+    return list
+}

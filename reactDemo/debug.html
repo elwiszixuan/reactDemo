@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        
+        function testArray() {
+            let kpiArray = [];
+            for (let i = 0; i < 16; i++) {
+                let kpi = {
+                    title: i + "",
+                    result: i
+                }
+                kpiArray[i] = kpi
+            }
+        
+            return kpiArray;
+        }
+        
+        function convertArray(arrayFromBack){
+            
+            var list = [];
+            let receivedArray = arrayFromBack().slice();
+        
+            var arrayLength = receivedArray.length;
+            const numberInARow = 5;
+            var numberInLastRow = arrayLength%numberInARow;
+            var rows = (arrayLength-numberInLastRow) / numberInARow;
+        
+            for(var i=0;i<arrayLength;i+=numberInARow){
+                list.push(receivedArray.slice(i,i+numberInARow))
+            }
+        
+        
+            return list
+        }
+        
+        console.log(convertArray(testArray))
+    </script>
+
+</body>
+</html>
