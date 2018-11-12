@@ -19,31 +19,77 @@ function Card(props) {
     );
 }
 
+function TabDropDown(props) {
+    return (<p onClick={props.onClick}>-----------------↓-----------------</p>)
+
+}
+
 class CardsTab extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isExpand: false,
+
         }
     }
 
 
     render() {
+
+
+
         let kpiArray = convertArray(testArray).slice();
-        return (
-            <div>
-                {
-                    kpiArray.map(row => {
-                        return <div className="row justify-content-between" id="indexRow" style={{ background: 'aquamarine' }}>
-                            {row.map(item => {
-                                return <Card title = {item.title} result={item.result}></Card>
-                            }) }
-                        </div>
-                    })
-                }   
-            </div>
-        )
+        if (this.state.isExpand) {
+            return (
+                <div>
+                    {
+                        kpiArray.map(row => {
+                            return <div className="row justify-content-between" id="indexRow" style={{ background: 'aquamarine' }}>
+                                {row.map(item => {
+                                    return <Card title={item.title} result={item.result}></Card>
+                                })}
+
+                            </div>
+                        })
+                    }
+                    <TabDropDown onClick={() => this.handleTabDropDown()} />
+                </div>
+            )
+        }
+        else {
+            let kpiTopRow = kpiArray.slice(0, 1)
+
+
+            return (
+                <div>
+                    {
+                        kpiTopRow.map(row => {
+                            return <div className="row justify-content-between" id="indexRow" style={{ background: 'aquamarine' }}>
+                                {row.map(item => {
+                                    return <Card title={item.title} result={item.result}></Card>
+                                })}
+
+                            </div>
+                        })
+                    }
+
+                    <TabDropDown onClick={() => this.handleTabDropDown()} />
+                </div>)
+
+
+
+
+        }
+
     }
+
+    handleTabDropDown() {
+        this.setState({
+            isExpand: !this.state.isExpand,
+        })
+
+    }
+
 }
 
 
@@ -69,18 +115,18 @@ function testArray() {
     return kpiArray;
 }
 
-function convertArray(arrayFromBack){
-    
+function convertArray(arrayFromBack) {
+
     var list = [];
     let receivedArray = arrayFromBack().slice();
 
     var arrayLength = receivedArray.length;
     const numberInARow = 5;
-    var numberInLastRow = arrayLength%numberInARow;
-    var rows = (arrayLength-numberInLastRow) / numberInARow;
+    var numberInLastRow = arrayLength % numberInARow;
+    var rows = (arrayLength - numberInLastRow) / numberInARow;
 
-    for(var i=0;i<arrayLength;i+=numberInARow){
-        list.push(receivedArray.slice(i,i+numberInARow))
+    for (var i = 0; i < arrayLength; i += numberInARow) {
+        list.push(receivedArray.slice(i, i + numberInARow))
     }
 
 
